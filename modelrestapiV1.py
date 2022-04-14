@@ -1,3 +1,8 @@
+"""
+Created on March 2022
+@author: PIYUSH KUMAR
+@github: https://github.com/piyushkummaar
+"""
 from datetime import datetime, timedelta
 import uvicorn
 from fastapi import Depends, FastAPI, HTTPException, status,UploadFile
@@ -58,16 +63,6 @@ app = FastAPI(
     title="OCR MODEL",
     description="Python build OCR model using OpenCV for image processing and convert image data into text",
     version="1.0.0",
-    # terms_of_service="http://example.com/terms/",
-    # contact={
-    #     "name": "Deadpoolio the Amazing",
-    #     "url": "http://x-force.example.com/contact/",
-    #     "email": "dp@x-force.example.com",
-    # },
-    # license_info={
-    #     "name": "Apache 2.0",
-    #     "url": "https://www.apache.org/licenses/LICENSE-2.0.html",
-    # },
 )
 
 
@@ -147,10 +142,6 @@ async def login_for_access_token(form_data: OAuth2PasswordRequestForm = Depends(
     return {"access_token": access_token, "token_type": "bearer"}
 
 
-# @app.get("/users/me/", response_model=User)
-# async def read_users_me(current_user: User = Depends(get_current_active_user)):
-#     return current_user
-
 
 def save_file(filename, data):
     with open(filename, 'wb') as f:
@@ -161,6 +152,8 @@ async def imagetotext(file: UploadFile,current_user: User = Depends(get_current_
     contents = await file.read()
     check_file_type = file.filename.split(".")[-1]
     if check_file_type == "jpg" or check_file_type == "png" or check_file_type == "jpeg":
+        if not os.path.exists('uploads'):
+            os.makedirs('uploads')
         save_file_path = os.getcwd()+"\\uploads\\"+file.filename
         save_file(save_file_path, contents)
         ocr = IMAGETOTEXT()
@@ -168,8 +161,7 @@ async def imagetotext(file: UploadFile,current_user: User = Depends(get_current_
         print(type(data))
         json_compatible_item_data = jsonable_encoder({"data":data})
         return JSONResponse(content=json_compatible_item_data)
-        # return data#{"data": data }
     raise HTTPException(400, detail="Invalid document type")
 
 if __name__ == '__main__':
-    uvicorn.run(app, host='127.0.0.1', port=8000, debug=True)
+    uvicorn.run(app, host='0.0.0.0', port=8000, debug=True)

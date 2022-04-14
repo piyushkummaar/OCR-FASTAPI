@@ -154,7 +154,10 @@ async def imagetotext(file: UploadFile,current_user: User = Depends(get_current_
     if check_file_type == "jpg" or check_file_type == "png" or check_file_type == "jpeg":
         if not os.path.exists('uploads'):
             os.makedirs('uploads')
-        save_file_path = os.getcwd()+"\\uploads\\"+file.filename
+        if sys.platform == 'win32':
+            save_file_path = os.getcwd()+"\\uploads\\"+file.filename
+        else:
+            save_file_path = os.getcwd()+"/uploads/"+file.filename
         save_file(save_file_path, contents)
         ocr = IMAGETOTEXT()
         data = ocr.extracttext(save_file_path)

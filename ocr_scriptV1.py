@@ -18,7 +18,7 @@ class IMAGETOTEXT:
         if sys.platform == 'win32':
             pytesseract.pytesseract.tesseract_cmd = r"C:\Program Files (x86)\Tesseract-OCR\tesseract.exe"
         else:
-            pytesseract.pytesseract.tesseract_cmd = r""
+            pytesseract.pytesseract.tesseract_cmd = r"usr/bin/tesseract"
     def dodgeV2(self,x,y):
         return cv2.divide(x,255-y,scale=256)
         

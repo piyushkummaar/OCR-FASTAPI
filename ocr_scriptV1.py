@@ -7,14 +7,18 @@ import pytesseract
 from PIL import Image
 import cv2
 import numpy as np
+import sys
 
 class IMAGETOTEXT:
     def __init__(self):
         '''
         repr : Initializing the tesseract path
         '''
-        pytesseract.pytesseract.tesseract_cmd = r"C:\Program Files (x86)\Tesseract-OCR\tesseract.exe"
-
+        
+        if sys.platform == 'win32':
+            pytesseract.pytesseract.tesseract_cmd = r"C:\Program Files (x86)\Tesseract-OCR\tesseract.exe"
+        else:
+            pytesseract.pytesseract.tesseract_cmd = r""
     def dodgeV2(self,x,y):
         return cv2.divide(x,255-y,scale=256)
         

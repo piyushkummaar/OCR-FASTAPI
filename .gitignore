@@ -1,4 +1,5 @@
 .env
+/env
 uploads/*jpg
 uploads/*jpeg
 uploads/*png
